@@ -1,8 +1,17 @@
 <template>
-  <h5>Some logger info home page stuff</h5>
-  <circleIndicator />
+  <v-container class="bg-surface-variant">
+    <v-row>
+      <v-col cols="3">
+        <CardBatteryVoltage />
+      </v-col>
+      <v-col cols="3">
+        <cardDaysRemaining />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
-import circleIndicator from '@/components/ui/circleIndicator.vue';
+import CardBatteryVoltage from "@/components/ui/cardBatteryVoltage.vue";
+import cardDaysRemaining from "@/components/ui/cardDaysRemaining.vue";
 </script>

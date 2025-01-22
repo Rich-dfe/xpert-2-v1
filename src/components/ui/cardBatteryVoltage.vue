@@ -15,15 +15,18 @@
 
     <v-card-text class="py-0">
       <v-row align="center" no-gutters>
-        <v-col class="text-h3" cols="6"> 2.96V </v-col>
+        <v-col class="text-h3" cols="6">{{ loggerStore.batteryVoltage }}</v-col>
 
         <v-col class="text-right" cols="6">
           <v-progress-circular
-            model-value=""
+            :model-value="loggerStore.batteryVoltagePercent"
+            :rotate="360"
             :size="100"
             :width="12"
             color="success"
-            >20</v-progress-circular
+            >
+            {{ loggerStore.batteryVoltagePercent }}%
+            </v-progress-circular
           >
         </v-col>
       </v-row>
@@ -41,4 +44,8 @@
   </v-card>
 </template>
 
-<script setup></script>
+<script setup>
+import { useLoggerStore } from '@/stores/loggers';
+const loggerStore = useLoggerStore();
+
+</script>

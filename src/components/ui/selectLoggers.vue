@@ -8,7 +8,7 @@
       item-value="id"
       return-object
     />
-    <!-- {{ loggerStore.selected }} -->
+    <!-- {{ loggerStore.selected.logger_name }} -->
   </template>
   
   <script setup>
