@@ -9,33 +9,37 @@ export const useLoggerStore = defineStore("logger", () => {
   // STATE PROPERTIES
   const loggers = ref([]);
   const selected = ref(null);
-  const selectedInfo = ref([
+  const selectedInfo = ref();
+  const selectedDiagnosticData = ref(null);
+
+  selectedInfo.value=[
     {
-      "id": 524,
-      "product_id": 1,
-      "group_id": 66,
-      "user_id": 32,
-      "customer_id": 16,
-      "mp_user_sensor_count": 5,
+      "id": null,
+      "product_id": null,
+      "group_id": null,
+      "user_id": null,
+      "customer_id": null,
+      "mp_user_sensor_count": null,
       "mp_sensor_id": null,
-      "logger_uid": 261360397436195,
+      "logger_uid": null,
       "logger_hex_uid": null,
-      "logger_name": "EDB4B5A5C523 - New Blue WL",
-      "settings_count": 0,
+      "logger_name": null,
+      "settings_count": null,
       "sensor_spacing": null,
       "lat": -43.545286,
       "lng": 172.635785,
       "timezone": "NZ",
-      "timezone_offset": "13.00",
+      "timezone_offset": null,
       "notes": null,
       "settings": null,
-      "firmwareVersionInUse": 128,
-      "firmwareVersionDateLogged": 1721691901,
-      "created_at": "2021-12-01T03:16:24.000Z",
-      "updated_at": null
+      "firmwareVersionInUse": null,
+      "firmwareVersionDateLogged": null,
+      "created_at": null,
+      "updated_at": null,
+      "product_name": null,
+      "model": null
     }
-  ]);
-  const selectedDiagnosticData = ref(null);
+  ];
 
   // FUNCTIONS
   async function fetchLoggersByUserId(userId) {
@@ -75,7 +79,7 @@ export const useLoggerStore = defineStore("logger", () => {
             params: { uidDecimal: selected_raw.logger_uid },
           }
         );
-        console.log(selected_raw);
+        //console.log(selected_raw);
         selectedDiagnosticData.value = response.data[0].diagnostics;
       }
     } catch (error) {
@@ -94,8 +98,8 @@ export const useLoggerStore = defineStore("logger", () => {
             }
           );
           
-          selectedInfo.value = response.data[0];
-          console.log('info',selectedInfo.value);
+          selectedInfo.value = response.data;
+          //console.log('info',selectedInfo.value);
         }
       } catch (error) {
         alert('fetchLoggerInfo: '+error);
