@@ -35,7 +35,7 @@ export const useSettingsStore = defineStore("settings", () => {
             params: { loggerId: loggerStore.selected.id },
           }
         );
-        //loggerConfigDbFormFields.value = response.data[0];
+        loggerConfigFormFields.value = response.data[0];
         console.log(response.data);
       } catch (error) {
         alert("fetchConfigSettings: " + error);

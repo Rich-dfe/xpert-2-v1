@@ -19,7 +19,7 @@
             v-model="settingsStore.loggerConfigFormFields.site"
             :counter="10"
             label="Site"
-            prepend-inner-icon="mdi-home"
+            prepend-inner-icon="mdi-map-marker"
             required
             density="compact"
           ></v-text-field>
@@ -30,7 +30,7 @@
           <v-text-field
             v-model="settingsStore.loggerConfigFormFields.timezone"
             label="Timezone"
-            prepend-inner-icon="mdi-key"
+            prepend-inner-icon="mdi-airplane-clock"
             required
             density="compact"
           ></v-text-field>
@@ -41,7 +41,7 @@
           <v-textarea
             v-model="settingsStore.loggerConfigFormFields.notes"
             label="Notes"
-            prepend-inner-icon="mdi-mail"
+            prepend-inner-icon="mdi-note-edit"
             density="compact"
             row-height="15"
             rows="1"
@@ -54,7 +54,7 @@
           <v-text-field
             v-model="settingsStore.loggerConfigFormFields.group_name"
             label="Group"
-            prepend-inner-icon="mdi-key"
+            prepend-inner-icon="mdi-group"
             required
             density="compact"
           ></v-text-field>
@@ -66,7 +66,7 @@
           <v-text-field
             type="datetime-local"
             label="Start Time"
-            prepend-inner-icon="mdi-clock"
+            prepend-inner-icon="mdi-clock-start"
             required
             density="compact"
           ></v-text-field>
@@ -77,7 +77,7 @@
           <v-text-field
             type="datetime-local"
             label="Stop Time"
-            prepend-inner-icon="mdi-clock"
+            prepend-inner-icon="mdi-clock-end"
             required
             density="compact"
           ></v-text-field>
@@ -146,8 +146,11 @@
         </v-col>
       </v-row>
       <v-row no-gutters="">
-        <v-col cols="6" class="mr-4">
+        <v-col cols="1" class="mr-4">
           <v-btn color="primary" prepend-icon="mdi-arrow-right" v-on:click = "settingsStore.saveConfigSettings"> Submit </v-btn>
+        </v-col>
+        <v-col cols="1" class="mr-4">
+          <v-btn color="secondary" prepend-icon="mdi-arrow-right" v-on:click = "settingsStore.saveConfigSettings"> Apply </v-btn>
         </v-col>
       </v-row>
     </v-container>
