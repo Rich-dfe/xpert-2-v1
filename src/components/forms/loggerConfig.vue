@@ -1,12 +1,13 @@
 <template>
-  <v-form v-model="settingsStore.isConfigFormValid">
+  <v-form v-model="loggerConfigStore.isConfigFormValid">
     <v-container>
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-text-field
-            v-model="settingsStore.loggerConfigFormFields.x0000"
+            v-model="loggerConfigStore.loggerConfigFormFields.x0000"
             :counter="50"
             label="Logger name"
+            color="success"
             prepend-inner-icon="mdi-tag"
             required
             density="compact"
@@ -16,9 +17,10 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-text-field
-            v-model="settingsStore.loggerConfigFormFields.site"
+            v-model="loggerConfigStore.loggerConfigFormFields.site"
             :counter="10"
             label="Site"
+            color="success"
             prepend-inner-icon="mdi-map-marker"
             required
             density="compact"
@@ -28,8 +30,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-text-field
-            v-model="settingsStore.loggerConfigFormFields.timezone"
+            v-model="loggerConfigStore.loggerConfigFormFields.timezone"
             label="Timezone"
+            color="success"
             prepend-inner-icon="mdi-airplane-clock"
             required
             density="compact"
@@ -39,8 +42,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-textarea
-            v-model="settingsStore.loggerConfigFormFields.notes"
+            v-model="loggerConfigStore.loggerConfigFormFields.notes"
             label="Notes"
+            color="success"
             prepend-inner-icon="mdi-note-edit"
             density="compact"
             row-height="15"
@@ -52,8 +56,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-text-field
-            v-model="settingsStore.loggerConfigFormFields.group_name"
+            v-model="loggerConfigStore.loggerConfigFormFields.group_name"
             label="Group"
+            color="success"
             prepend-inner-icon="mdi-group"
             required
             density="compact"
@@ -66,6 +71,7 @@
           <v-text-field
             type="datetime-local"
             label="Start Time"
+            color="success"
             prepend-inner-icon="mdi-clock-start"
             required
             density="compact"
@@ -77,6 +83,7 @@
           <v-text-field
             type="datetime-local"
             label="Stop Time"
+            color="success"
             prepend-inner-icon="mdi-clock-end"
             required
             density="compact"
@@ -86,24 +93,24 @@
       <v-row no-gutters="">
         <v-col cols="2">
           <v-select
-            
             label="Interval Hours"
+            color="success"
             :items="hours"
             density="compact"
           ></v-select>
         </v-col>
         <v-col cols="2">
           <v-select
-            
             label="Interval Minutes"
+            color="success"
             :items="minutes"
             density="compact"
           ></v-select>
         </v-col>
         <v-col cols="2">
           <v-select
-            
             label="Interval Seconds"
+            color="success"
             :items="seconds"
             density="compact"
           ></v-select>
@@ -112,9 +119,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-switch
-            v-model="settingsStore.loggerConfigFormControlValues.continuous"
-            :label="`Continuous Logging Enabled: ${settingsStore.loggerConfigFormControlValues.continuous}`"
-            color="primary"
+            v-model="loggerConfigStore.loggerConfigFormControlValues.continuous"
+            :label="`Continuous Logging Enabled: ${loggerConfigStore.loggerConfigFormControlValues.continuous}`"
+            color="success"
             false-value="Off"
             true-value="On"
             hide-details
@@ -124,9 +131,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-switch
-            v-model="settingsStore.loggerConfigFormControlValues.firmwareUpdateEnabled"
-            :label="`Firmware Update Enabled: ${settingsStore.loggerConfigFormControlValues.firmwareUpdateEnabled}`"
-            color="primary"
+            v-model="loggerConfigStore.loggerConfigFormControlValues.firmwareUpdateEnabled"
+            :label="`Firmware Update Enabled: ${loggerConfigStore.loggerConfigFormControlValues.firmwareUpdateEnabled}`"
+            color="success"
             false-value="Off"
             true-value="On"
             hide-details
@@ -136,9 +143,9 @@
       <v-row no-gutters="">
         <v-col cols="6" class="mr-4">
           <v-switch
-            v-model="settingsStore.loggerConfigFormControlValues.applyToGroup"
-            :label="`Apply To Group: ${settingsStore.loggerConfigFormControlValues.applyToGroup}`"
-            color="primary"
+            v-model="loggerConfigStore.loggerConfigFormControlValues.applyToGroup"
+            :label="`Apply To Group: ${loggerConfigStore.loggerConfigFormControlValues.applyToGroup}`"
+            color="success"
             false-value="No"
             true-value="Yes"
             hide-details
@@ -147,10 +154,10 @@
       </v-row>
       <v-row no-gutters="">
         <v-col cols="1" class="mr-4">
-          <v-btn color="primary" prepend-icon="mdi-arrow-right" v-on:click = "settingsStore.saveConfigSettings"> Submit </v-btn>
+          <v-btn color="primary" prepend-icon="mdi-arrow-right" v-on:click = "loggerConfigStore.saveConfigSettings"> Submit </v-btn>
         </v-col>
         <v-col cols="1" class="mr-4">
-          <v-btn color="secondary" prepend-icon="mdi-arrow-right" v-on:click = "settingsStore.saveConfigSettings"> Apply </v-btn>
+          <v-btn color="secondary" prepend-icon="mdi-arrow-right" v-on:click = "loggerConfigStore.saveConfigSettings"> Apply </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -159,12 +166,12 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useSettingsStore } from "@/stores/settings";
+import { useLoggerConfigStore } from "@/stores/loggerConfig";
 
-const settingsStore = useSettingsStore();
+const loggerConfigStore = useLoggerConfigStore();
 
 onMounted(() => {
-    settingsStore.fetchConfigSettings()
+  loggerConfigStore.fetchConfigSettings()
 })
 
 const menu2 = ref(false);

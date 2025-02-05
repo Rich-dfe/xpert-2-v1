@@ -99,7 +99,7 @@ export const useLoggerStore = defineStore("logger", () => {
           );
           
           selectedInfo.value = response.data;
-          //console.log('info',selectedInfo.value);
+          console.log('info',selectedInfo.value);
         }
       } catch (error) {
         alert('fetchLoggerInfo: '+error);

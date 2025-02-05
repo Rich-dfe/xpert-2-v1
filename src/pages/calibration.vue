@@ -1,24 +1,16 @@
 <template>
   <v-container>
-    <v-empty-state
-    v-if="loggerStore.selected === null"
-  headline="Nothing to do here"
-  title="Calibration Not Required"
-  text="This logger does not require calibration"
-  image="https://vuetifyjs.b-cdn.net/docs/images/logos/v.png"
-></v-empty-state>
     <v-row>
-      <v-col cols="12" v-if="loggerStore.selected !== null && loggerStore.selected.product_id === 16"> 
-        <h3>Calibration</h3>
-        <calibrationTemp/>
-      </v-col>
       <v-col cols="12" v-if="loggerStore.selected !== null && loggerStore.selected.product_id === 18"> 
         <h3>Calibration</h3>
         <calibrationPAR/>
       </v-col>
-      <v-col cols="12" v-if="loggerStore.selected !== null && loggerStore.selected.product_id === 22"> 
+      <v-col cols="12" v-else-if="loggerStore.selected !== null && loggerStore.selected.product_id <= 7"> 
         <h3>Calibration</h3>
-        <calibrationMPT/>
+        <calibrationWL/>
+      </v-col>
+      <v-col cols="12" v-else> 
+        <noActionRequired/>
       </v-col>
     </v-row>
   </v-container>
@@ -28,9 +20,10 @@
       import { useLoggerStore } from '@/stores/loggers';
       import calibrationMPT from '@/components/forms/calibrationMPT.vue';
       import calibrationTemp from '@/components/forms/calibrationTemp.vue';
-      import calibrationPAR from '@/components/forms/calibrationPar.vue';
+      import calibrationPAR from '@/components/forms/calibrationPAR.vue';
+      import calibrationWL from '@/components/forms/calibrationWL.vue';
+      import noActionRequired from '@/components/ui/noActionRequired.vue';
     
       const loggerStore = useLoggerStore();
 
-      console.log(loggerStore.selected);
   </script>

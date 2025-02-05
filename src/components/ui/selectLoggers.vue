@@ -2,6 +2,7 @@
     <v-select
       v-model="loggerStore.selected"
       label="Loggers"
+      color="success"
       density="compact"
       :items=loggerStore.loggers
       item-title="logger_name"

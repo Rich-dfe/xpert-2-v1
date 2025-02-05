@@ -4,7 +4,7 @@ import axios from "axios";
 import { useLoggerStore } from "./loggers";
 const loggerStore = useLoggerStore();
 
-export const useSettingsStore = defineStore("settings", () => {
+export const useLoggerConfigStore = defineStore("loggerConfig", () => {
   const loggerConfigFormFields = ref({
     group_name: "Home",
     notes: null,

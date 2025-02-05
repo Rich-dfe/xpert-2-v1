@@ -2,6 +2,7 @@
     <v-select
       v-model="groupStore.selected"
       label="Logger Groups"
+      color="success"
       density="compact"
       :items=groupStore.groups
       item-title="group_name"
