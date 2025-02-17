@@ -17,7 +17,7 @@
     import { useGroupStore } from '@/stores/groups';
     const groupStore = useGroupStore();
   
-    onMounted(() => {
-      groupStore.fetchGroups(32)
-    })
+    // onMounted(() => {
+    //   groupStore.fetchGroups(32)
+    // })
   </script>
