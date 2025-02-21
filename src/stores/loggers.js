@@ -1,9 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch, toRaw, isProxy } from "vue";
 import axios from "axios";
-import { useGroupStore } from "./groups";
-
-const groupStore = useGroupStore();
 
 export const useLoggerStore = defineStore("logger", () => {
   // STATE PROPERTIES
@@ -11,6 +8,7 @@ export const useLoggerStore = defineStore("logger", () => {
   const selected = ref(null);
   const selectedInfo = ref();
   const selectedDiagnosticData = ref(null);
+  const groupInfo = ref(); //Populated from the groups store
 
   selectedInfo.value=[
     {
@@ -58,10 +56,10 @@ export const useLoggerStore = defineStore("logger", () => {
       const response = await axios.get(
         import.meta.env.VITE_GROUP_LOGGERS_BASE,
         {
-          params: { groupId: groupId },
+          params: { groupId: groupInfo.value.id, userId: groupInfo.value.user_id },
         }
       );
-      //console.log('fetchLoggersByGroupId',response.data);
+      console.log('fetchLoggersByGroupId',response.data);
       loggers.value = response.data;
       selected.value = null;
     } catch (error) {
@@ -107,13 +105,14 @@ export const useLoggerStore = defineStore("logger", () => {
   }
 
   //WATCHERS
-  watch(
-    () => groupStore.selected,
-    () => {
-      fetchLoggersByGroupId(groupStore.selected.id);
-    }
-  );
+  // watch(
+  //   () => groupStore.selected,
+  //   () => {
+  //     fetchLoggersByGroupId(groupStore.selected.id);
+  //   }
+  // );
 
+  watch(groupInfo,fetchLoggersByGroupId);
   watch(selected, fetchDiagnosticData);
   watch(selected, fetchLoggerInfo);
 
@@ -157,6 +156,7 @@ export const useLoggerStore = defineStore("logger", () => {
     fetchLoggersByUserId,
     selected,
     selectedInfo,
+    groupInfo,
     fetchLoggersByGroupId,
     batteryVoltage,
     batteryVoltagePercent,

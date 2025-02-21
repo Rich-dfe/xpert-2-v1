@@ -1,22 +1,22 @@
 <template>
     <v-container class="pa-0">
       <v-row no-gutters>
-        <v-col cols="3">
+        <v-col xs="12" sm="12" md="6" lg="3">
           <v-sheet class="pa-2">
             <selectCustomers />
           </v-sheet>
         </v-col>
-        <v-col cols="3">
+        <v-col xs="12" sm="12" md="6" lg="3">
           <v-sheet class="pa-2">
             <selectUsers />
           </v-sheet>
         </v-col>
-        <v-col cols="3">
+        <v-col xs="12" sm="12" md="6" lg="3">
           <v-sheet class="pa-2">
             <selectGroups />
           </v-sheet>
         </v-col>
-        <v-col cols="3">
+        <v-col xs="12" sm="12" md="6" lg="3">
           <v-sheet class="pa-2">
             <selectLoggers />
           </v-sheet>

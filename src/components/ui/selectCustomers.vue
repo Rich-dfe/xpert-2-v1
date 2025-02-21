@@ -1,7 +1,7 @@
 <template v-if="customerStore.customers">
     <v-select
       v-model="customerStore.selected"
-      label="Customers"
+      label="Customer"
       color="success"
       density="compact"
       :items=customerStore.customers
@@ -13,7 +13,7 @@
   </template>
   
   <script setup>
-    import { onBeforeMount } from 'vue'
+    import { onBeforeMount, onMounted } from 'vue'
     import { useCustomerStore } from '@/stores/customers';
     const customerStore = useCustomerStore();
   

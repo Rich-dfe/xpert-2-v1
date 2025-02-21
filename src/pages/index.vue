@@ -1,18 +1,18 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3">
+      <v-col xs="12" sm="12" md="6" lg="3">
         <cardLoggerInfo />
       </v-col>
-      <v-col cols="3">
+      <v-col xs="12" sm="12" md="6" lg="3">
        <cardMap />
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="3">
+      <v-col xs="12" sm="12" md="6" lg="3">
         <CardBatteryVoltage />
       </v-col>
-      <v-col cols="3">
+      <v-col xs="12" sm="12" md="6" lg="3">
         <cardDaysRemaining />
       </v-col>
     </v-row>

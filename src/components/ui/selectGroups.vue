@@ -1,7 +1,7 @@
 <template>
     <v-select
       v-model="groupStore.selected"
-      label="Logger Groups"
+      label="Logger Group"
       color="success"
       density="compact"
       :items=groupStore.groups

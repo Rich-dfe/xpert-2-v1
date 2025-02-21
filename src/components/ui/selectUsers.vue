@@ -1,7 +1,7 @@
-<template v-if="userStore.users">
+<template v-if="usersStore.users">
     <v-select
       v-model="usersStore.selected"
-      label="Users"
+      label="User"
       color="success"
       density="compact"
       :items=usersStore.users

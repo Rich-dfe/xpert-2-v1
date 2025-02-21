@@ -1,7 +1,7 @@
 <template>
     <v-select
       v-model="loggerStore.selected"
-      label="Loggers"
+      label="Logger"
       color="success"
       density="compact"
       :items=loggerStore.loggers
