@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
 import { useLoggerStore } from "./loggers";
-const loggerStore = useLoggerStore();
 
 export const useLoggerConfigStore = defineStore("loggerConfig", () => {
+  const loggerStore = useLoggerStore();
+
   const loggerConfigFormFields = ref({
     group_name: "Home",
     notes: null,
@@ -18,7 +19,7 @@ export const useLoggerConfigStore = defineStore("loggerConfig", () => {
   });
 
   const loggerConfigFormControlValues = ref({
-    continuous:'On',
+    continuous: "On",
     applyToGroup: "No",
     firmwareUpdateEnabled: "Off",
   });
@@ -36,7 +37,7 @@ export const useLoggerConfigStore = defineStore("loggerConfig", () => {
           }
         );
         loggerConfigFormFields.value = response.data[0];
-        console.log(response.data);
+        console.log("Logger config store", response.data);
       } catch (error) {
         alert("fetchConfigSettings: " + error);
       }
@@ -46,6 +47,16 @@ export const useLoggerConfigStore = defineStore("loggerConfig", () => {
   function saveConfigSettings() {
     console.log("Save settings");
   }
+
+  watch(
+    () => loggerStore.selected,
+    (n) => {
+      fetchConfigSettings();
+      //console.log(n, " value changed");
+    }
+  );
+
+  
 
   // EXPOSED PROPERTIES
   return {

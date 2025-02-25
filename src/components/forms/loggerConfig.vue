@@ -165,12 +165,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useLoggerConfigStore } from "@/stores/loggerConfig";
 
 const loggerConfigStore = useLoggerConfigStore();
 
-onMounted(() => {
+onBeforeMount(() => {
   loggerConfigStore.fetchConfigSettings()
 })
 

@@ -8,7 +8,7 @@ const userStore = useUsersStore();
 export const useCustomerStore = defineStore("customer", () => {
   // STATE PROPERTIES
   const customers = ref([]);
-  const selected = ref();
+  const selected = ref(null);
 
   //NOTE: THE LAMBDA FUNCTION USES INFO IN THE AWS COGNITO JWT TO DETERMINE WHAT RESULTS TO RETURN
   // FUNCTIONS

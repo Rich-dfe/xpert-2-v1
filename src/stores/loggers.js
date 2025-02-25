@@ -3,6 +3,7 @@ import { ref, watch, toRaw, isProxy } from "vue";
 import axios from "axios";
 
 export const useLoggerStore = defineStore("logger", () => {
+ 
   // STATE PROPERTIES
   const loggers = ref([]);
   const selected = ref(null);
