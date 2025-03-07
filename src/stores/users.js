@@ -15,12 +15,15 @@ export const useUsersStore = defineStore("user", () => {
   const selected = ref(null);
 
   async function fetchUsers() {
+    var idToken = localStorage.getItem("CognitoIdentityServiceProvider.417oaji5dthgle2rtahqdmjmm8.499e6468-e041-7064-d3a2-9bdeb87f84d0.idToken");
     try {
       const response = await axios.get(
         import.meta.env.VITE_CUSTOMER_USERS_BASE,
         {
           params: { customerId: customerId.value },
+          headers: {Authorization: idToken}
         }
+        
       );
       console.log(response);
       users.value = response.data;
@@ -50,4 +53,10 @@ export const useUsersStore = defineStore("user", () => {
     customerId,
     selected
   };
-});
+},
+{
+  persist: {
+    pick: ['email'],
+  }
+}
+);

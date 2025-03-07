@@ -15,6 +15,7 @@
     "aws-amplify": "^6.12.3",
     "axios": "^1.7.9",
     "jwt-decode": "^4.0.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
     "vue3-google-map": "^0.21.1",

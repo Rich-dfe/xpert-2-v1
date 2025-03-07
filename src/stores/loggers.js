@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, watch, toRaw, isProxy } from "vue";
 import axios from "axios";
+import { signOut } from 'aws-amplify/auth';
 
 export const useLoggerStore = defineStore("logger", () => {
  
@@ -49,6 +50,7 @@ export const useLoggerStore = defineStore("logger", () => {
       this.loggers = response.data;
     } catch (error) {
       alert('fetchLoggersByUserId: '+error);
+      await signOut();
     }
   }
 
@@ -65,6 +67,7 @@ export const useLoggerStore = defineStore("logger", () => {
       selected.value = null;
     } catch (error) {
       alert('fetchLoggersByGroupId: '+error);
+      await signOut();
     }
   }
 
@@ -83,6 +86,7 @@ export const useLoggerStore = defineStore("logger", () => {
       }
     } catch (error) {
       alert('fetchDiagnosticData: '+error);
+      await signOut();
     }
   }
 
@@ -102,6 +106,7 @@ export const useLoggerStore = defineStore("logger", () => {
         }
       } catch (error) {
         alert('fetchLoggerInfo: '+error);
+        await signOut();
       }
   }
 

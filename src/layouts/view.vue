@@ -5,10 +5,9 @@
       <v-navigation-drawer v-model="drawer">
         <v-list>
           <v-list-item
-            v-for="(creds) in navDrawUserDetails"
             prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
-            :subtitle="creds.group"
-            :title="creds.name"
+            :subtitle="userStore.userGroup"
+            :title="userStore.email"
           />
         </v-list>
         <v-divider />
@@ -70,6 +69,11 @@
 </template>
 
 <script setup>
+//window.location.href = window.location.origin+"/";
+console.log('LOC',window.location);
+console.log('LOC2',window.location.origin+"/");
+
+
 import { ref } from "vue";
 import { Authenticator } from "@aws-amplify/ui-vue";
 import '@aws-amplify/ui/dist/styles.css'; 
@@ -79,15 +83,17 @@ import { jwtDecode } from "jwt-decode";
 import { getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
 import loggerFilterBar from "@/components/ui/loggerFilterBar.vue";
 import { useUsersStore } from "@/stores/users";
+import { useLoggerStore } from "@/stores/loggers";
 import axios from "axios";
 
 const userStore = useUsersStore();
+const loggerStore = useLoggerStore();
 const drawer = ref(null);
 
 const items = [
   { text: "Home", icon: "mdi-home", to: "/" },
   { text: "Settings", icon: "mdi-cog-outline", to: "/settings" },
-  { text: "Calibration", icon: "mdi-wrench-outline", to: "/calibration" },
+  { text: "Calibration", icon: "mdi-calculator-variant-outline", to: "/calibration" },
   { text: "Chart", icon: "mdi-chart-line", to: "/chart" },
   { text: "Groups", icon: "mdi-group", to: "/groups" },
   {
@@ -96,11 +102,12 @@ const items = [
     to: "/licenses",
   },
   { text: "User Guides", icon: "mdi-file-document-outline", to: "/guides" },
+  { text: "Server Settings", icon: "mdi-server-outline", to: "/serverSettings" },
 ];
 
-const navDrawUserDetails = [
-  {name: null, group: null}
-]
+// const navDrawUserDetails = [
+//   {name: null, group: null}
+// ]
 
 Amplify.configure({
     Auth: {
@@ -131,7 +138,7 @@ async function currentSession() {
   try {
     const { accessToken, idToken } = (await fetchAuthSession()).tokens ?? {};
     axios.defaults.headers.common["Authorization"] = idToken;
-
+    //console.log('Running currentSession()');
     console.log(`Access Token: ${accessToken}`);
     console.log(`ID Token: ${idToken}`);
 
@@ -144,8 +151,8 @@ async function currentSession() {
 
     console.log("GROUP : ", userGroup);
     console.log("EMAIL : ", userEmail);
-    navDrawUserDetails[0].name = userEmail;
-    navDrawUserDetails[0].group = userGroup;
+    //navDrawUserDetails[0].name = userEmail;
+    //navDrawUserDetails[0].group = userGroup;
 
     //email.value = decoded.email
     //axios.defaults.headers.common["Authorization"] = idToken;
@@ -157,6 +164,7 @@ async function currentSession() {
 
 Hub.listen("auth", (data) => {
   const { payload } = data;
+  //console.log('Hub',payload.event);
   switch (payload.event) {
     case "signedIn":
       currentSession();

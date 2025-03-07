@@ -17,7 +17,7 @@
     import { useLoggerStore } from '@/stores/loggers';
     const loggerStore = useLoggerStore();
   
-    onMounted(() => {
-      loggerStore.fetchLoggersByUserId(32)
-    })
+    // onMounted(() => {
+    //   loggerStore.fetchLoggersByUserId(32)
+    // })
   </script>

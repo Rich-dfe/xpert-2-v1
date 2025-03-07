@@ -7,11 +7,11 @@ export const useLoggerConfigStore = defineStore("loggerConfig", () => {
   const loggerStore = useLoggerStore();
 
   const loggerConfigFormFields = ref({
-    group_name: "Home",
+    group_name: "",
     notes: null,
-    site: "Deployment_1584412761860",
-    timezone: "NZ",
-    x0000: "Spa Pool",
+    site: "",
+    timezone: "",
+    x0000: "",
     x000E: 0,
     x0013: 0,
     x0018: 120,

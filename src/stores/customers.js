@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 import axios from "axios";
 import { useUsersStore } from "./users.js";
+import { signOut } from "aws-amplify/auth";
 
 const userStore = useUsersStore();
 
@@ -12,15 +13,24 @@ export const useCustomerStore = defineStore("customer", () => {
 
   //NOTE: THE LAMBDA FUNCTION USES INFO IN THE AWS COGNITO JWT TO DETERMINE WHAT RESULTS TO RETURN
   // FUNCTIONS
+  
   async function fetchCustomers() {
+    //console.log('Fetching customers here');
+    var idToken = localStorage.getItem("CognitoIdentityServiceProvider.417oaji5dthgle2rtahqdmjmm8.499e6468-e041-7064-d3a2-9bdeb87f84d0.idToken");
+   
     try {
       const response = await axios.get(import.meta.env.VITE_CUSTOMERS_BASE, {
         params: { email: userStore.email },
+        headers: {Authorization: idToken}
       });
+      const statusCode = response?.status
+      if (statusCode === 200) {
         console.log(response);
         this.customers = response.data;
+      }
     } catch (error) {
-      alert("customer request error");
+      //alert('fetchCustomers: '+error);
+      await signOut();
     }
   }
 
