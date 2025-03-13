@@ -5,8 +5,13 @@
         <v-btn
           color="blue-lighten-3"
           prepend-icon="mdi-adjust"
+          :loading="serverSettingsStore.mfrSettingsIsloading"
           v-on:click="serverSettingsStore.fetchMfrSettings()"
-          >Mfr Settings</v-btn
+          >Mfr Settings
+          <template v-slot:loader>
+          <v-progress-circular indeterminate></v-progress-circular>
+          </template>
+          </v-btn
         >
       </v-col>
     </v-row>

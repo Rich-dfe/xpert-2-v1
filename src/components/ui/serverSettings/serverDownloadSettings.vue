@@ -7,6 +7,7 @@
             <v-btn
           color="red-lighten-3"
           prepend-icon="mdi-adjust"
+          variant="outlined"
           v-on:click="serverSettingsStore.getServerDownloadSettings()"
           >Test Settings</v-btn
         >

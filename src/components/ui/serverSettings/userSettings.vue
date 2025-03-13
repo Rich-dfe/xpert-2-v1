@@ -5,8 +5,13 @@
         <v-btn
           color="blue-lighten-3"
           prepend-icon="mdi-adjust"
+          :loading="serverSettingsStore.userSettingsIsloading"
           v-on:click="serverSettingsStore.fetchUserSettings()"
-          >User Settings</v-btn
+          >User Settings
+          <template v-slot:loader>
+          <v-progress-circular indeterminate></v-progress-circular>
+          </template>
+          </v-btn
         >
       </v-col>
     </v-row>

@@ -36,14 +36,16 @@
     </v-row>
     <v-row>
       <v-col md="12">
+        
         <div class="text-h5 text-center">
-          Channel {{ serverSettingsStore.selectedChannel.toUpperCase() }}
-          <span v-if="serverSettingsStore.isloading"
-            ><v-progress-circular
-              color="primary"
-              indeterminate
-            ></v-progress-circular
-          ></span>
+          <v-btn
+          :loading="serverSettingsStore.isloading"
+          :readonly=true
+          >Channel {{ serverSettingsStore.selectedChannel.toUpperCase() }}
+          <template v-slot:loader>
+          <v-progress-circular indeterminate></v-progress-circular>
+          </template>
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -87,8 +89,13 @@
             <v-btn
           color="secondary"
           prepend-icon="mdi-toggle-switch-outline"
+          :loading="serverSettingsStore.toggleIsLoading"
           v-on:click="serverSettingsStore.toggleChannelSettings()"
-          >Toggle</v-btn
+          >Toggle
+          <template v-slot:loader>
+          <v-progress-circular indeterminate></v-progress-circular>
+          </template>
+          </v-btn
         >
         </v-col>
     </v-row>

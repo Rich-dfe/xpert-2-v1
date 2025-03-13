@@ -20,6 +20,7 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
   const selectedSensor = ref(null);
   const selectedSensorValue = ref(null);
   const toggleMsg = ref(null);
+  const toggleIsLoading = ref(false);
   //END OF CHANNEL SENSOR REFS
 
   //USER SETTINGS REFS
@@ -27,15 +28,15 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
   const userSettingsIsloading = ref(false);
   const userSettingSelectedInUse = ref(null);
   const userSettingSelectedNotInUse = ref(null);
-  const userSettingSelected = ref({"id":null, "settingValue":null});
+  const userSettingSelected = ref({ id: null, settingValue: null });
   //END OF USER SETTINGS REFS
 
   //MFR SETTINGS REFS
   const currentMfrSettings = ref([]);
-  const mfrSettingsIsloading = ref(false); 
+  const mfrSettingsIsloading = ref(false);
   const mfrSettingSelectedInUse = ref(null);
   const mfrSettingSelectedNotInUse = ref(null);
-  const mfrSettingSelected = ref({"id":null, "settingValue":null});
+  const mfrSettingSelected = ref({ id: null, settingValue: null });
   //END OF MFR SETTINGS REFS
 
   const serverDownloadSettings = ref(null);
@@ -84,8 +85,16 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
   }
 
   async function toggleChannelSettings() {
-    // const updateMsgBox = document.querySelector('#updateStatusContainer');
-    // var updateMsg = '';
+    toggleIsLoading.value = true;
+
+    if (!selectedSensor.value) {
+      toggleIsLoading.value = false;
+      toggleMsg.value = "Nothing Selected!";
+      setTimeout(function () {
+        toggleMsg.value = "";
+      }, 2000);
+      return;
+    }
 
     if (selectedSensor.value.state != null) {
       if (selectedSensor.value.state === 1) {
@@ -94,9 +103,7 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
         selectedSensor.value.state = 1;
       }
     }
-    //console.log("Toggled", selectedSensor.value.id, selectedSensor.value.state);
 
-    //isloading.value = true;
     try {
       const response = await axios.put(
         import.meta.env.VITE_LOGGER_CHANNEL_SETTINGS_API_BASE,
@@ -107,10 +114,10 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
           value: selectedSensor.value.state,
         }
       );
-      isloading.value = false;
+
       console.log("PUT", response.data[0].changedRows);
       if (response.data[0].changedRows === 1) {
-        toggleMsg.value = selectedSensor.value.id + " Updated";
+        toggleMsg.value = selectedSensor.value.id + " Updating...";
       } else if (response.data[0].changedRows === 0) {
         toggleMsg.value = "No Change";
       }
@@ -118,6 +125,7 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
       setTimeout(function () {
         toggleMsg.value = null;
         selectedSensor.value.id = null;
+        toggleIsLoading.value = false;
       }, 2000);
 
       //reload channel select menus
@@ -139,7 +147,7 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
 
   //USER SETTINGS FUNCTIONS
   async function fetchUserSettings() {
-      userSettingsIsloading.value = true;
+    userSettingsIsloading.value = true;
     try {
       const response = await axios.get(
         import.meta.env.VITE_USER_SETTINGS_API_BASE,
@@ -150,6 +158,7 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
         }
       );
       currentUserSettings.value = response.data;
+      userSettingsIsloading.value = false;
       console.log(response.data);
     } catch (error) {
       if (error.response) {
@@ -163,11 +172,11 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
     }
   }
 
-  function setInUseSettingToSelected(){
+  function setInUseSettingToSelected() {
     userSettingSelected.value = userSettingSelectedInUse.value;
   }
 
-  function setNotInUseSettingToSelected(){
+  function setNotInUseSettingToSelected() {
     userSettingSelected.value = userSettingSelectedNotInUse.value;
   }
   //END OF USER SETTINGS FUNCTIONS
@@ -175,68 +184,70 @@ export const useServerSettingsStore = defineStore("serverSettings", () => {
   //MFR SETTINGS FUNCTIONS
   async function fetchMfrSettings() {
     mfrSettingsIsloading.value = true;
-  try {
-    const response = await axios.get(
-      import.meta.env.VITE_MFR_SETTINGS_API_BASE,
-      {
-        params: {
-          lid: loggerStore.selected.id,
-        },
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_MFR_SETTINGS_API_BASE,
+        {
+          params: {
+            lid: loggerStore.selected.id,
+          },
+        }
+      );
+      currentMfrSettings.value = response.data;
+      mfrSettingsIsloading.value = false;
+      console.log(response.data);
+    } catch (error) {
+      if (error.response) {
+        await signOut();
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
       }
-    );
-    currentMfrSettings.value = response.data;
-    console.log(response.data);
-  } catch (error) {
-    if (error.response) {
-      await signOut();
-    } else if (error.request) {
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log("Error", error.message);
     }
   }
-}
 
-function setInUseMfrSettingToSelected(){
-  mfrSettingSelected.value = mfrSettingSelectedInUse.value;
-}
+  function setInUseMfrSettingToSelected() {
+    mfrSettingSelected.value = mfrSettingSelectedInUse.value;
+  }
 
-function setNotInUseMfrSettingToSelected(){
-  mfrSettingSelected.value = mfrSettingSelectedNotInUse.value;
-}
+  function setNotInUseMfrSettingToSelected() {
+    mfrSettingSelected.value = mfrSettingSelectedNotInUse.value;
+  }
   //END OF MFR SETTINGS FUNCTIONS
 
   // SERVER SETTINGS FUNCTION
   async function getServerDownloadSettings() {
     try {
-      const response = await axios.get(import.meta.env.VITE_SERVER_DOWNLOAD_SETTINGS,{
-        //The authorization header is removed for this request as I don't currently know if the Xtract app can handle CORS.
-        transformRequest: (data,headers) => {
-          delete headers['Authorization'];
-        },
-        params: { 
-            //email: userStore.selected.id, 
-            //serial_no:loggerStore.selected.id 
-            email:"r.griffithmumby@uq.edu.au",
-            password: "5f1227bo",
-            force_manufacturer_settings:0
-          }
-      });
+      const response = await axios.get(
+        import.meta.env.VITE_SERVER_DOWNLOAD_SETTINGS,
+        {
+          //The authorization header is removed for this request as I don't currently know if the Xtract app can handle CORS.
+          transformRequest: (data, headers) => {
+            delete headers["Authorization"];
+          },
+          params: {
+            email: userStore.selected.email,
+            serial_no: loggerStore.selected.logger_uid,
+            force_manufacturer_settings: 1,
+          },
+        }
+      );
       console.log(response.data);
       //Set the array in the store object to the database results
       serverDownloadSettings.value = response.data;
     } catch (error) {
-        if (error.response) {
+      if (error.response) {
         console.log(error.request);
         //await signOut();
-      }else if (error.request) {
+      } else if (error.request) {
         console.log(error.request);
       } else {
-        console.log('Error', error.message);
+        console.log("Error", error.message);
       }
     }
-}
+  }
 
   // END OF SERVER SETTINGS FUNCTION
 
@@ -264,6 +275,7 @@ function setNotInUseMfrSettingToSelected(){
     selectedSensor,
     selectedSensorValue,
     toggleMsg,
+    toggleIsLoading,
 
     fetchUserSettings,
     currentUserSettings,
@@ -271,7 +283,7 @@ function setNotInUseMfrSettingToSelected(){
     userSettingSelectedNotInUse,
     userSettingSelected,
     userSettingsIsloading,
-    
+
     fetchMfrSettings,
     currentMfrSettings,
     mfrSettingSelectedInUse,
